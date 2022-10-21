@@ -1,2 +1,3 @@
-# dotnet-aop-example
-.NET Aspect Oriented Programming Example (AOP)
+# Aspect Oriented Programming Example
+This is a simple AOP implementation with .NET 6
+
