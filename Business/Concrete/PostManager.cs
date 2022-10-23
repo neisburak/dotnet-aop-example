@@ -1,21 +1,18 @@
 using Business.Abstract;
 using Business.Entities;
-using Business.Extensions;
-using Core.Aspects;
+using Business.Utilities.Http;
+using Core.Aspects.Logging;
+using Core.Aspects.Performance;
 
 namespace Business.Concrete;
 
+[Log]
 public class PostManager : IPostService
 {
     private const string _url = "https://jsonplaceholder.typicode.com/posts/";
 
-    [LogAspect]
     public async Task<Post?> GetAsync(string id) => await _url.GetAsync<Post>(id);
 
-    [ExceptionAspect]
-    [PerformanceAspect(10)]
+    [Performance(Interval = 0)]
     public async Task<List<Post>?> GetAsync() => await _url.GetAsync<List<Post>>();
 }
-
-
-

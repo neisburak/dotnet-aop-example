@@ -1,6 +1,5 @@
-using Autofac;
-using Autofac.Extensions.DependencyInjection;
-using Business;
+using Business.Utilities.IoC;
+using Core.Utilities.IoC;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -11,11 +10,10 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-builder.Host.UseServiceProviderFactory(new AutofacServiceProviderFactory())
-.ConfigureContainer<ContainerBuilder>(builder =>
-{
-    builder.RegisterModule(new BusinessModule());
-});
+builder.Services.ConfigureCore();
+
+builder.Services.ConfigureBusiness();
+
 
 var app = builder.Build();
 

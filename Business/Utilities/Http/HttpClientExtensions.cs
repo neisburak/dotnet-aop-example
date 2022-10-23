@@ -1,14 +1,11 @@
 using System.Net;
 using System.Text.Json;
 
-namespace Business.Extensions;
+namespace Business.Utilities.Http;
 
 public static class HttpClientExtensions
 {
-    private static HttpClient GetClient(this string url)
-    {
-        return new HttpClient { BaseAddress = new Uri(url) };
-    }
+    private static HttpClient GetClient(this string url) => new HttpClient { BaseAddress = new Uri(url) };
 
     public static async Task<T?> GetAsync<T>(this string url, string? parameters = default)
     {
