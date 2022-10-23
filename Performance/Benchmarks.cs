@@ -9,7 +9,7 @@ public class Benchmarks
 {
     private readonly RestClient _restClient = new();
 
-    [Benchmark(Baseline = true)]
+    [Benchmark]
     public async Task Normal() => await _restClient.CallNormal();
 
     [Benchmark]

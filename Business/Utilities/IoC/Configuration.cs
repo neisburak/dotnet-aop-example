@@ -9,8 +9,8 @@ public static class Configuration
 {
     public static IServiceCollection ConfigureBusiness(this IServiceCollection serviceCollection)
     {
-        serviceCollection.AddInterceptedScoped<IPostService, PostManager>();
-        serviceCollection.AddScoped<IInterceptedPostService, InterceptedPostManager>();
+        serviceCollection.AddScoped<IPostService, PostManager>();
+        serviceCollection.AddInterceptedScoped<IInterceptedPostService, InterceptedPostManager>();
 
         return serviceCollection;
     }
