@@ -1,3 +1,4 @@
+using Core.Aspects;
 using Castle.DynamicProxy;
 using Core.Dependencies;
 using Microsoft.Extensions.DependencyInjection;
@@ -8,7 +9,6 @@ public static class DependencyExtensions
 {
     public static IServiceCollection AddInterceptedTransient<TInterface, TImplementation>(this IServiceCollection serviceCollection) where TInterface : class where TImplementation : class, TInterface
     {
-
         serviceCollection.AddTransient<TImplementation>();
         serviceCollection.AddTransient(typeof(TInterface), serviceProvider =>
         {
@@ -17,14 +17,15 @@ public static class DependencyExtensions
 
             var interceptors = serviceProvider.GetInterceptors<TImplementation>();
 
-            return proxyGenerator.CreateInterfaceProxyWithTarget<TInterface>(implementation, interceptors);
+            var options = new ProxyGenerationOptions() { Selector = new InterceptorSelector<TImplementation>() };
+
+            return proxyGenerator.CreateInterfaceProxyWithTarget<TInterface>(implementation, options, interceptors);
         });
         return serviceCollection;
     }
 
     public static IServiceCollection AddInterceptedScoped<TInterface, TImplementation>(this IServiceCollection serviceCollection) where TInterface : class where TImplementation : class, TInterface
     {
-
         serviceCollection.AddScoped<TImplementation>();
         serviceCollection.AddScoped(typeof(TInterface), serviceProvider =>
         {
@@ -33,14 +34,15 @@ public static class DependencyExtensions
 
             var interceptors = serviceProvider.GetInterceptors<TImplementation>();
 
-            return proxyGenerator.CreateInterfaceProxyWithTarget<TInterface>(implementation, interceptors);
+            var options = new ProxyGenerationOptions() { Selector = new InterceptorSelector<TImplementation>() };
+
+            return proxyGenerator.CreateInterfaceProxyWithTarget<TInterface>(implementation, options, interceptors);
         });
         return serviceCollection;
     }
 
     public static IServiceCollection AddInterceptedSingleton<TInterface, TImplementation>(this IServiceCollection serviceCollection) where TInterface : class where TImplementation : class, TInterface
     {
-
         serviceCollection.AddSingleton<TImplementation>();
         serviceCollection.AddSingleton(typeof(TInterface), serviceProvider =>
         {
@@ -49,7 +51,9 @@ public static class DependencyExtensions
 
             var interceptors = serviceProvider.GetInterceptors<TImplementation>();
 
-            return proxyGenerator.CreateInterfaceProxyWithTarget<TInterface>(implementation, interceptors);
+            var options = new ProxyGenerationOptions() { Selector = new InterceptorSelector<TImplementation>() };
+
+            return proxyGenerator.CreateInterfaceProxyWithTarget<TInterface>(implementation, options, interceptors);
         });
         return serviceCollection;
     }
