@@ -14,5 +14,6 @@ public class InterceptedPostManager : IInterceptedPostService
     public async Task<Post?> GetAsync(string id) => await _url.GetAsync<Post>(id);
 
     [Performance(Interval = 0)]
+    [Log]
     public async Task<List<Post>?> GetAsync() => await _url.GetAsync<List<Post>>();
 }
